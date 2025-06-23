@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Registration</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- <div class="registration-container"> -->
+      <!-- <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        <div class="progress-steps">
+          <div class="step active" data-step="1">
+            <i class="fas fa-user"></i>
+            <span>Personal</span>
+          </div>
+          <div class="step" data-step="2">
+            <i class="fas fa-address-card"></i>
+            <span>Contact</span>
+          </div>
+          <div class="step" data-step="3">
+            <i class="fas fa-camera"></i>
+            <span>Photo ID</span>
+          </div>
+          <div class="step" data-step="4">
+            <i class="fas fa-ticket-alt"></i>
+            <span>Tickets</span>
+          </div>
+          <div class="step" data-step="5">
+            <i class="fas fa-check"></i>
+            <span>Confirm</span>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <form id="registration-form"> -->
+        <!-- Step 1: Personal Information -->
+        <!-- <div class="form-step active" data-step="1">
+          <h2>Personal Information</h2>
+          <div class="form-group">
+            <label for="first-name">First Name*</label>
+            <input type="text" id="first-name" name="first-name" required />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="last-name">Last Name*</label>
+            <input type="text" id="last-name" name="last-name" required />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="dob">Date of Birth*</label>
+            <input type="date" id="dob" name="dob" required />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <div class="radio-group">
+              <label
+                ><input type="radio" name="gender" value="male" /> Male</label
+              >
+              <label
+                ><input type="radio" name="gender" value="female" />
+                Female</label
+              >
+              <label
+                ><input type="radio" name="gender" value="other" /> Other</label
+              >
+              <label
+                ><input type="radio" name="gender" value="prefer-not-to-say" />
+                Prefer not to say</label
+              >
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="button" class="btn next-btn">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div> -->
+
+        <!-- Step 2: Contact Information -->
+        <!-- <div class="form-step" data-step="2">
+          <h2>Contact Information</h2>
+          <div class="form-group">
+            <label for="email">Email Address*</label>
+            <input type="email" id="email" name="email" required />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number*</label>
+            <input type="tel" id="phone" name="phone" required />
+            <div class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="address">Street Address</label>
+            <input type="text" id="address" name="address" />
+          </div>
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" />
+            </div>
+            <div class="form-group half-width">
+              <label for="country">Country</label>
+              <select id="country" name="country">
+                <option value="">Select Country</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="button" class="btn prev-btn">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button type="button" class="btn next-btn">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div> -->
+
+        <!-- Step 3: Photo Upload -->
+        <!-- <div class="form-step" data-step="3">
+          <h2>Photo Identification</h2>
+          <div class="form-group">
+            <label for="photo-upload">Upload Profile Photo*</label>
+            <div class="upload-container">
+              <input
+                type="file"
+                id="photo-upload"
+                name="photo-upload"
+                accept="image/*"
+                required
+              />
+              <label for="photo-upload" class="upload-btn">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Choose File</span>
+              </label>
+              <div class="file-info">No file chosen</div>
+            </div>
+            <div class="error-message"></div>
+            <div class="preview-container hidden">
+              <img id="photo-preview" src="#" alt="Preview" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="id-upload">Upload ID Document (Optional)</label>
+            <div class="upload-container">
+              <input
+                type="file"
+                id="id-upload"
+                name="id-upload"
+                accept="image/*,.pdf"
+              />
+              <label for="id-upload" class="upload-btn">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Choose File</span>
+              </label>
+              <div class="file-info">No file chosen</div>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="button" class="btn prev-btn">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button type="button" class="btn next-btn">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div> -->
+
+        <!-- Step 4: Ticket Selection -->
+        <!-- <div class="form-step" data-step="4">
+          <h2>Ticket Selection</h2>
+          <div class="ticket-options">
+            <div class="ticket-card">
+              <h3>Free Registration</h3>
+              <p>Basic event access</p>
+              <p class="price">$0.00</p>
+              <label>
+                <input type="radio" name="ticket-type" value="free" checked />
+                <span class="radio-custom"></span>
+                Select
+              </label>
+            </div>
+            <div class="ticket-card featured">
+              <div class="featured-badge">Popular</div>
+              <h3>Standard Pass</h3>
+              <p>Full event access + materials</p>
+              <p class="price">$99.00</p>
+              <label>
+                <input type="radio" name="ticket-type" value="standard" />
+                <span class="radio-custom"></span>
+                Select
+              </label>
+            </div>
+            <div class="ticket-card">
+              <h3>VIP Pass</h3>
+              <p>All benefits + premium seating</p>
+              <p class="price">$199.00</p>
+              <label>
+                <input type="radio" name="ticket-type" value="vip" />
+                <span class="radio-custom"></span>
+                Select
+              </label>
+            </div>
+          </div>
+          <div class="button-group">
+            <button type="button" class="btn prev-btn">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button type="button" class="btn next-btn">
+              Next <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div> -->
+
+        <!-- Step 5: Confirmation -->
+        <!-- <div class="form-step" data-step="5">
+          <h2>Review Your Information</h2>
+          <div class="summary-container">
+            <div class="summary-section">
+              <h3><i class="fas fa-user"></i> Personal Information</h3>
+              <p><strong>Name:</strong> <span id="summary-name"></span></p>
+              <p>
+                <strong>Date of Birth:</strong> <span id="summary-dob"></span>
+              </p>
+              <p><strong>Gender:</strong> <span id="summary-gender"></span></p>
+            </div>
+            <div class="summary-section">
+              <h3><i class="fas fa-address-card"></i> Contact Information</h3>
+              <p><strong>Email:</strong> <span id="summary-email"></span></p>
+              <p><strong>Phone:</strong> <span id="summary-phone"></span></p>
+              <p>
+                <strong>Address:</strong> <span id="summary-address"></span>
+              </p>
+            </div>
+            <div class="summary-section">
+              <h3><i class="fas fa-ticket-alt"></i> Ticket Selection</h3>
+              <p>
+                <strong>Ticket Type:</strong> <span id="summary-ticket"></span>
+              </p>
+              <p><strong>Amount:</strong> <span id="summary-amount"></span></p>
+            </div>
+          </div>
+          <div class="form-group terms">
+            <label>
+              <input type="checkbox" id="terms" name="terms" required />
+              I agree to the
+              <a href="#" target="_blank">Terms and Conditions</a> and
+              <a href="#" target="_blank">Privacy Policy</a>*
+            </label>
+            <div class="error-message"></div>
+          </div>
+          <div class="button-group">
+            <button type="button" class="btn prev-btn">
+              <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button type="submit" class="btn submit-btn">
+              Complete Registration
+            </button>
+          </div>
+        </div> -->
+      <!-- </form> -->
+
+      <!-- Success Modal -->
+      <!-- <div class="modal" id="success-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2>Registration Successful!</h2>
+          </div>
+          <div class="modal-body">
+            <p>
+              Thank you for registering. A confirmation email has been sent to
+              <span id="confirm-email"></span>.
+            </p>
+            <p>
+              Your registration ID is: <strong id="registration-id"></strong>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn close-modal">Close</button>
+            <button type="button" class="btn print-btn">
+              <i class="fas fa-print"></i> Print Badge
+            </button>
+          </div>
+        </div>
+      </div> -->
+    <!-- </div> -->
+
+    <script src="script.js"></script>
+  </body>
+</html>

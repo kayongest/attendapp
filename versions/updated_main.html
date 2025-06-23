@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Cards with Responsive Header</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .titillium-web-extralight {
+        font-family: "Titillium Web", sans-serif;
+        font-size: 14px;
+        font-style: normal;
+      }
+
+      .titillium-web-light {
+        font-family: "Titillium Web", sans-serif;
+        font-size: 11px;
+        font-style: normal;
+      }
+
+      .titillium-web-regular {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      .titillium-web-semibold {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+      }
+
+      .titillium-web-bold {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .titillium-web-black {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+      }
+
+      .titillium-web-extralight-italic {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 200;
+        font-style: italic;
+      }
+
+      .titillium-web-light-italic {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 300;
+        font-style: italic;
+      }
+
+      .titillium-web-regular-italic {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 400;
+        font-style: italic;
+      }
+
+      .titillium-web-semibold-italic {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .titillium-web-bold-italic {
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 700;
+        font-style: italic;
+      }
+
+      /* Meta Badges */
+      .event-meta-badges {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .meta-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 7px;
+        border-radius: 16px;
+        font-size: 10px;
+        line-height: 1;
+      }
+
+      .date-badge {
+        background-color: #5c80a2;
+        color: #ffffff;
+      }
+
+      .registrants-badge {
+        background-color: #2a5f25;
+        color: #fff;
+      }
+
+      .badge-icon {
+        margin-right: 5px;
+        font-size: 12px;
+      }
+
+      .badge-text {
+        font-weight: 500;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .meta-badge {
+          padding: 3px 8px;
+          font-size: 11px;
+        }
+
+        .badge-icon {
+          margin-right: 3px;
+        }
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Titillium Web", sans-serif;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* Full-width carousel container */
+      .custom-carousel {
+        width: 1264px;
+        position: relative;
+        margin-left: calc(-50vw + 50%);
+        overflow: hidden;
+        background: #000;
+      }
+
+      /* Carousel inner container */
+      .carousel-inner {
+        display: flex;
+        width: 200%; /* 3 slides = 300% */
+        height: 100%;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      /* Carousel items */
+      .carousel-item {
+        width: 100vw;
+        height: 100%;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      /* Images */
+      .carousel-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Captions */
+      .carousel-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+
+      /* Indicators */
+      .carousel-indicators {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 5px;
+        z-index: 10;
+      }
+
+      .carousel-indicators button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+      }
+
+      .carousel-indicators button.active {
+        background: white;
+      }
+
+      /* Navigation buttons */
+      .carousel-control-prev,
+      .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .carousel-control-prev {
+        left: 15px;
+      }
+
+      .carousel-control-next {
+        right: 15px;
+      }
+
+      .carousel-control-prev-icon,
+      .carousel-control-next-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .custom-carousel {
+          height: 250px !important;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .custom-carousel {
+          height: 200px !important;
+        }
+
+        .carousel-caption {
+          display: none; /* Hide captions on small screens */
+        }
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Responsive Header Styles */
+      /* Fancy Header */
+      header {
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo {
+        color: #ff6500;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: linear-gradient(to right, var(--primary-color), #a78bfa);
+        -webkit-background-clip: text;
+        /* -webkit-text-fill-color: transparent; */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 5px 0;
+      }
+
+      .nav-links a:hover {
+        color: #ff6500;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #818fb4;
+        transition: width 0.3s ease;
+      }
+
+      /* .nav-links a:hover::after {
+        width: 100%;
+      } */
+
+      /* User Dropdown */
+      .user-menu {
+        position: relative;
+        display: inline-block;
+      }
+
+      .user-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .user-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 3px #ff6500;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        background-color: white;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1;
+        overflow: hidden;
+        animation: fadeIn 0.2s ease-out;
+      }
+
+      .user-menu:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: var(--dark-color);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f7fafc;
+        color: var(--primary-color);
+        border-left: 3px solid var(--primary-color);
+        padding-left: 20px;
+      }
+
+      .dropdown-content a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .divider {
+        height: 1px;
+        background-color: #edf2f7;
+        margin: 5px 0;
+      }
+
+      /* Mobile Menu */
+      .menu-toggle {
+        display: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .nav-links {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          width: 280px;
+          height: 100vh;
+          background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 80px 30px 30px;
+          transition: all 0.3s ease;
+          z-index: 1000;
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .user-menu {
+          margin-left: auto;
+          margin-right: 20px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .logo {
+          font-size: 22px;
+        }
+      }
+
+      /* Mobile Menu Toggle */
+      .menu-toggle {
+        display: none;
+        cursor: pointer;
+        color: white;
+        font-size: 24px;
+      }
+
+      /* Filter Controls Styling */
+      .filter-controls {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .search-filter {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        font-family: "Titillium Web", sans-serif;
+      }
+
+      .search-input:focus {
+        border-color: #05527c;
+        box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+        outline: none;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 20px;
+        font-family: "Titillium Web", sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover {
+        border-color: #05527c;
+        color: #05527c;
+      }
+
+      .filter-btn.active {
+        background: #05527c;
+        color: white;
+        border-color: #05527c;
+      }
+
+      /* Hide filtered items */
+      .event-card.hidden {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .filter-buttons {
+          gap: 8px;
+        }
+
+        .filter-btn {
+          padding: 6px 12px;
+          font-size: 14px;
+        }
+      }
+
+      /* Events Grid */
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      /* Card Styles */
+      .event-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      /* additional css */
+      /* Footer Styles */
+      .event-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        margin-top: 5px;
+        border-top: 1px solid #edf2f7;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .footer-meta {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .footer-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 16px;
+        font-size: 12px;
+        background-color: rgba(
+          76,
+          175,
+          80,
+          0.1
+        ); /* Matching tech badge color */
+        color: #2e7d32; /* Darker shade for text */
+      }
+
+      .location {
+        background-color: rgba(33, 150, 243, 0.1);
+        color: #1565c0;
+      }
+
+      .time {
+        background-color: rgba(240, 85, 55, 0.1);
+        color: #c62828;
+      }
+
+      .footer-icon {
+        margin-right: 5px;
+        font-size: 12px;
+      }
+
+      .price-badge {
+        padding: 6px 12px;
+        border-radius: 16px;
+        background-color: rgba(240, 85, 55, 0.1);
+        color: #f05537;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .event-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .event-actions {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .footer-badge,
+        .price-badge {
+          padding: 3px 8px;
+          font-size: 11px;
+        }
+      }
+
+      .card-image-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .event-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .category-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background-color: rgba(240, 85, 55, 0.9);
+        color: white;
+        padding: 2px 6px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+      }
+
+      /* Different category colors */
+      .category-badge.music {
+        background-color: #ff6500;
+      }
+
+      .category-badge.business {
+        background-color: #ff6500;
+      }
+
+      .category-badge.tech {
+        background-color: #a27b5c;
+      }
+
+      .category-badge.wildLife {
+        background-color: #1f7d53;
+      }
+
+      /* Card Content */
+      .event-content {
+        padding: 12px;
+      }
+
+      /* Compact Filter Row */
+      .filter-row {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        padding-top: 30px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .search-wrapper {
+        position: relative;
+        flex-grow: 1;
+        min-width: 100px;
+      }
+
+      .search-input {
+        width: 70%;
+        padding: 5px 5px 5px 40px;
+        border: 1px solid #d8dade;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: all 0.3s;
+      }
+
+      .search-input:focus {
+        border-color: #05527c;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+      }
+
+      .category-filters {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 0px 5px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 3px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .filter-btn:hover {
+        border-color: #05527c;
+      }
+
+      .filter-btn.active {
+        background: #05527c;
+        color: white;
+        border-color: #05527c;
+      }
+
+      /* Events Grid (existing styles remain) */
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .filter-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-wrapper {
+          min-width: 100%;
+        }
+
+        .category-filters {
+          justify-content: center;
+        }
+      }
+
+      /* Responsive Breakpoints */
+      @media (max-width: 992px) {
+        .events-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          position: fixed;
+          top: 70px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 70px);
+          background-color: #1d2536;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px 0;
+          transition: left 0.3s ease;
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .nav-links a {
+          padding: 15px;
+          width: 100%;
+          text-align: center;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .events-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .header-content {
+          padding: 10px 0;
+        }
+
+        .logo {
+          font-size: 20px;
+        }
+
+        .events-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 18px;
+        }
+
+        .menu-toggle {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">BADGE APP</div>
+          <div class="menu-toggle">☰</div>
+          <nav class="nav-links titillium-web-extralight">
+            <a href="#">Browse Events</a>
+            <a href="#">Create Event</a>
+            <div class="user-menu">
+              <div class="user-icon">KR</div>
+              <div class="dropdown-content">
+                <a href="#"><i>👤</i> Profile</a>
+                <a href="#"><i>⚙️</i> Settings</a>
+                <div class="divider"></div>
+                <a href="#"><i>🚪</i> Logout</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Full-width Carousel (modified for pure CSS/JS implementation) -->
+    <div id="carouselExampleDark" class="custom-carousel" style="height: 300px">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button type="button" data-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="10000">
+          <img src="images/10.jpg" class="carousel-img" alt="Slide 1" />
+          <div class="carousel-caption">
+            <h5>First slide label</h5>
+            <p>Some representative placeholder content.</p>
+          </div>
+        </div>
+
+        <div class="carousel-item" data-interval="2000">
+          <img src="images/11.jpeg" class="carousel-img" alt="Slide 2" />
+          <div class="carousel-caption">
+            <h5>Second slide label</h5>
+            <p>Some representative placeholder content.</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <img src="images/12.jpg" class="carousel-img" alt="Slide 3" />
+          <div class="carousel-caption">
+            <h5>Third slide label</h5>
+            <p>Some representative placeholder content.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" aria-label="Previous">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button class="carousel-control-next" type="button" aria-label="Next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <div class="container">
+      <!-- Compact Filter/Search Row -->
+      <div class="filter-row">
+        <div class="search-wrapper">
+          <input
+            type="text"
+            id="event-search"
+            placeholder="Search events..."
+            class="search-input"
+          />
+          <span class="search-icon">🔍</span>
+        </div>
+        <div class="category-filters">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="tech">Technology</button>
+          <button class="filter-btn" data-category="wildLife">Wildlife</button>
+          <button class="filter-btn" data-category="virtual">Virtual</button>
+        </div>
+      </div>
+
+      <div class="events-grid">
+        <!-- Event cards remain the same as before -->
+        <div
+          class="event-card"
+          data-categories="tech"
+          data-price="paid"
+          data-search="tech innovators summit 2023"
+        >
+          <div class="card-image-wrapper">
+            <img src="images/3.jpg" alt="Tech Conference" class="event-image" />
+            <div class="category-badge tech">Technology</div>
+            <div class="image-overlay"></div>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Tech Innovators Summit 2023</h3>
+
+            <div class="event-meta-badges">
+              <span class="meta-badge date-badge">
+                <span class="badge-text">Nov 15, 2023</span>
+              </span>
+              <span class="meta-badge registrants-badge">
+                <span class="badge-text">1,248 registered</span>
+              </span>
+            </div>
+
+            <p class="event-description titillium-web-light">
+              Join the leading minds in technology as we explore the future of
+              AI, blockchain, and quantum computing in this exclusive virtual
+              summit. <span class="view-more">View more...</span>
+            </p>
+
+            <div class="event-footer">
+              <div class="footer-meta">
+                <span class="footer-badge location">
+                  <span class="footer-icon">📍</span>
+                  <span>Virtual Event</span>
+                </span>
+                <span class="footer-badge time">
+                  <span class="footer-icon">🕒</span>
+                  <span>Last 3 mins</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Event Card 2 -->
+        <div
+          class="event-card"
+          data-categories="wildLife"
+          data-price="free"
+          data-search="tech innovators summit 2023"
+        >
+          <div class="card-image-wrapper">
+            <img src="images/5.jpeg" alt="Music Festival" class="event-image" />
+            <div class="category-badge wildLife">WildLife</div>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Business Conservation Summit 2025</h3>
+
+            <div class="event-meta-badges">
+              <span class="meta-badge date-badge">
+                <span class="badge-text">July 15, 2025</span>
+              </span>
+              <span class="meta-badge registrants-badge">
+                <span class="badge-text">7,248 registered</span>
+              </span>
+            </div>
+
+            <p class="event-description titillium-web-light">
+              Join the leading minds in technology as we explore the future of
+              AI, blockchain, and quantum computing in this exclusive virtual
+              summit. <span class="view-more">View more...</span>
+            </p>
+
+            <div class="event-footer">
+              <div class="footer-meta">
+                <span class="footer-badge location">
+                  <span>Free</span>
+                </span>
+                <span class="footer-badge time">
+                  <span class="footer-icon">🕒</span>
+                  <span>Last 3 mins</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="event-card"
+          data-categories="virtual"
+          data-price="paid"
+          data-search="tech innovators summit 2023"
+        >
+          <div class="card-image-wrapper">
+            <img
+              src="images/ai.jpeg"
+              alt="Tech Conference"
+              class="event-image"
+            />
+            <div class="category-badge wildLife">Wild Life</div>
+            <div class="image-overlay"></div>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Everyone Talks About AI.</h3>
+
+            <div class="event-meta-badges">
+              <span class="meta-badge date-badge">
+                <span class="badge-text">June 26, 2025 - 12PM</span>
+              </span>
+              <span class="meta-badge registrants-badge">
+                <span class="badge-text">217 registered</span>
+              </span>
+            </div>
+
+            <p class="event-description titillium-web-light">
+              <b>Go beyond the surface.</b> You can’t scale what you can’t
+              measure. And you can’t measure what you haven’t built a system
+              for.
+              <span class="view-more">View more...</span>
+            </p>
+
+            <div class="event-footer">
+              <div class="footer-meta">
+                <span class="footer-badge location">
+                  <span class="footer-icon">📍</span>
+                  <span>Virtual Event</span>
+                </span>
+                <span class="footer-badge time">
+                  <span class="footer-icon">🕒</span>
+                  <span>Last 3 mins</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Event Card 2 -->
+        <div
+          class="event-card"
+          data-categories="tech virtual"
+          data-price="paid"
+          data-search="tech innovators summit 2023"
+        >
+          <div class="card-image-wrapper">
+            <img
+              src="images/bg_1.png"
+              alt="Music Festival"
+              class="event-image"
+            />
+            <div class="category-badge tech">Technology</div>
+          </div>
+          <div class="event-content">
+            <h3 class="event-title">Tech Innovators Summit 2023</h3>
+
+            <div class="event-meta-badges">
+              <span class="meta-badge date-badge">
+                <span class="badge-text">Nov 15, 2023</span>
+              </span>
+              <span class="meta-badge registrants-badge">
+                <span class="badge-text">1,248 registered</span>
+              </span>
+            </div>
+
+            <p class="event-description titillium-web-light">
+              Join the leading minds in technology as we explore the future of
+              AI, blockchain, and quantum computing in this exclusive virtual
+              summit. <span class="view-more">View more...</span>
+            </p>
+
+            <div class="event-footer">
+              <div class="footer-meta">
+                <span class="footer-badge location">
+                  <span class="footer-icon">📍</span>
+                  <span>Virtual Event</span>
+                </span>
+                <span class="footer-badge time">
+                  <span class="footer-icon">🕒</span>
+                  <span>Last 3 mins</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Mobile menu toggle functionality
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("event-search");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const eventCards = document.querySelectorAll(".event-card");
+
+        // Search functionality
+        searchInput.addEventListener("input", function () {
+          const searchTerm = this.value.toLowerCase();
+
+          eventCards.forEach((card) => {
+            const searchText = card.getAttribute("data-search").toLowerCase();
+            if (searchText.includes(searchTerm)) {
+              card.classList.remove("hidden");
+            } else {
+              card.classList.add("hidden");
+            }
+          });
+        });
+
+        // Filter by category
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Update active button
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            const category = this.getAttribute("data-category");
+
+            eventCards.forEach((card) => {
+              if (category === "all") {
+                card.classList.remove("hidden");
+              } else {
+                const categories = card.getAttribute("data-categories");
+                if (categories && categories.includes(category)) {
+                  card.classList.remove("hidden");
+                } else {
+                  card.classList.add("hidden");
+                }
+              }
+            });
+          });
+        });
+
+        // Additional filter for free/paid events
+        const freeFilter = document.querySelector('[data-category="free"]');
+        if (freeFilter) {
+          freeFilter.addEventListener("click", function () {
+            eventCards.forEach((card) => {
+              const price = card.getAttribute("data-price");
+              if (price === "free") {
+                card.classList.remove("hidden");
+              } else {
+                card.classList.add("hidden");
+              }
+            });
+          });
+        }
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousel = document.querySelector(".custom-carousel");
+        const inner = carousel.querySelector(".carousel-inner");
+        const items = carousel.querySelectorAll(".carousel-item");
+        const indicators = carousel.querySelectorAll(
+          ".carousel-indicators button"
+        );
+        const prevBtn = carousel.querySelector(".carousel-control-prev");
+        const nextBtn = carousel.querySelector(".carousel-control-next");
+
+        let currentIndex = 0;
+        let intervalId = null;
+
+        // Update carousel position
+        function updateCarousel() {
+          inner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+          // Update indicators
+          indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === currentIndex);
+          });
+
+          // Update active item
+          items.forEach((item, index) => {
+            item.classList.toggle("active", index === currentIndex);
+          });
+
+          // Reset auto-advance timer if intervals are set
+          const activeItem = items[currentIndex];
+          const interval = activeItem.dataset.interval;
+
+          if (interval) {
+            clearInterval(intervalId);
+            startAutoAdvance(parseInt(interval));
+          }
+        }
+
+        // Start auto-advancing
+        function startAutoAdvance(interval) {
+          intervalId = setInterval(() => {
+            currentIndex = (currentIndex + 1) % items.length;
+            updateCarousel();
+          }, interval);
+        }
+
+        // Next slide
+        nextBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
+        });
+
+        // Previous slide
+        prevBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
+        });
+
+        // Indicator clicks
+        indicators.forEach((indicator) => {
+          indicator.addEventListener("click", () => {
+            currentIndex = parseInt(indicator.dataset.slideTo);
+            updateCarousel();
+          });
+        });
+
+        // Initialize with first item's interval or default
+        const initialInterval = items[0].dataset.interval || 5000;
+        startAutoAdvance(parseInt(initialInterval));
+      });
+    </script>
+  </body>
+</html>
