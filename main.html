@@ -581,6 +581,123 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      .modal-container {
+        background-color: white;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        animation: modalFadeIn 0.3s ease;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #555;
+        z-index: 10;
+      }
+
+      .modal-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-image-container {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .modal-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .modal-details {
+        padding: 25px;
+      }
+
+      .modal-meta {
+        display: flex;
+        gap: 15px;
+        margin: 15px 0;
+        flex-wrap: wrap;
+      }
+
+      .modal-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .register-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.2s;
+      }
+
+      .register-btn:hover {
+        background-color: #033a5a;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .modal-content {
+          flex-direction: column;
+        }
+
+        .modal-image-container {
+          height: 200px;
+        }
+      }
+
       /* Responsive Styles */
       @media (max-width: 1200px) {
         .events-grid {
@@ -1369,6 +1486,100 @@
           updateCalendar();
         });
       });
+
+      // Add this to your existing JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        const eventCards = document.querySelectorAll(".event-card");
+        const modalOverlay = document.getElementById("modalOverlay");
+        const modalClose = document.querySelector(".modal-close");
+
+        // Click event for each card
+        eventCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            // Get all the data from the clicked card
+            const imageSrc = this.querySelector(".event-image").src;
+            const title = this.querySelector(".event-title").textContent;
+            const date = this.querySelector(".event-date").textContent;
+            const description =
+              this.querySelector(".event-description").textContent;
+            const price = this.querySelector(".event-price").textContent;
+
+            // Get location and attendees if they exist
+            const location = this.querySelector(".stat-item:nth-child(2)")
+              ? this.querySelector(".stat-item:nth-child(2)").textContent.trim()
+              : "Online";
+
+            const attendees = this.querySelector(".stat-item:nth-child(1)")
+              ? this.querySelector(".stat-item:nth-child(1)").textContent.trim()
+              : "0";
+
+            // Populate the modal with the data
+            document.getElementById("modalEventImage").src = imageSrc;
+            document.getElementById("modalEventTitle").textContent = title;
+            document.getElementById("modalEventDate").textContent = date;
+            document.getElementById("modalEventDescription").textContent =
+              description;
+            document.getElementById("modalEventPrice").textContent = price;
+            document.getElementById("modalEventLocation").textContent =
+              location;
+            document.getElementById(
+              "modalEventAttendees"
+            ).textContent = `${attendees} attending`;
+
+            // Show the modal
+            modalOverlay.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+          });
+        });
+
+        // Close modal when clicking X or overlay
+        modalClose.addEventListener("click", closeModal);
+        modalOverlay.addEventListener("click", function (e) {
+          if (e.target === modalOverlay) {
+            closeModal();
+          }
+        });
+
+        // Close with Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") {
+            closeModal();
+          }
+        });
+
+        function closeModal() {
+          modalOverlay.classList.remove("active");
+          document.body.style.overflow = ""; // Re-enable scrolling
+        }
+      });
     </script>
+
+    <!-- Modal Structure -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal-container">
+        <button class="modal-close">&times;</button>
+        <div class="modal-content">
+          <div class="modal-image-container">
+            <img
+              id="modalEventImage"
+              src=""
+              alt="Event Image"
+              class="modal-image"
+            />
+          </div>
+          <div class="modal-details">
+            <h2 id="modalEventTitle"></h2>
+            <div class="modal-meta">
+              <span class="modal-date" id="modalEventDate"></span>
+              <span class="modal-location" id="modalEventLocation"></span>
+              <span class="modal-attendees" id="modalEventAttendees"></span>
+            </div>
+            <p id="modalEventDescription"></p>
+            <div class="modal-price" id="modalEventPrice"></div>
+            <button class="register-btn">Register Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
