@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventBadge - Event Management Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #05527c;
+        --secondary-color: #ff6500;
+        --dark-color: #1d2536;
+        --light-color: #f8f9fa;
+        --success-color: #2a5f25;
+        --danger-color: #f05537;
+        --info-color: #5c80a2;
+      }
+
+      /* Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Titillium Web", sans-serif;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(135deg, #3f5272 0%, #152a39 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+
+      .logo {
+        color: #ff6500;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 300;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 5px 0;
+      }
+
+      .nav-links a:hover {
+        color: #ff6500;
+      }
+
+      /* User Menu */
+      .user-menu {
+        position: relative;
+        display: inline-block;
+      }
+
+      .user-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        background-color: white;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1;
+      }
+
+      .user-menu:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: var(--dark-color);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 14px;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f7fafc;
+        color: var(--primary-color);
+      }
+
+      /* Mobile Menu */
+      .menu-toggle {
+        display: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      /* Hero Carousel */
+      .hero-carousel {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        overflow: hidden;
+        height: 400px;
+        margin-bottom: 40px;
+      }
+
+      .carousel-inner {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-item {
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .carousel-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        color: white;
+        text-align: left;
+      }
+
+      .carousel-caption h2 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .carousel-caption p {
+        font-size: 1.2rem;
+        max-width: 600px;
+      }
+
+      .carousel-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+      }
+
+      .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        padding: 0;
+        transition: all 0.3s;
+      }
+
+      .carousel-indicators button.active {
+        background: white;
+        transform: scale(1.2);
+      }
+
+      .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        opacity: 0.7;
+        transition: all 0.3s;
+      }
+
+      .carousel-control:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      .carousel-prev {
+        left: 30px;
+      }
+
+      .carousel-next {
+        right: 30px;
+      }
+
+      /* Main Content */
+      .main-content {
+        padding: 20px 0 40px;
+      }
+
+      /* Filter Controls */
+      .filter-section {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .view-toggle {
+        display: flex;
+        gap: 10px;
+      }
+
+      .view-btn {
+        padding: 8px 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .view-btn.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .search-filter {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .search-wrapper {
+        flex: 1;
+        min-width: 300px;
+        position: relative;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border: 1px solid #ddd;
+        border-radius: 30px;
+        font-size: 16px;
+        transition: all 0.3s;
+      }
+
+      .search-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(5, 82, 124, 0.1);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #777;
+      }
+
+      .filter-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        padding: 10px 20px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      .filter-btn.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      /* Events Grid */
+      .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      /* Event Card */
+      .event-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 180px;
+      }
+
+      .event-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-badges {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .category-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        background-color: var(--primary-color);
+      }
+
+      .featured-badge {
+        background-color: var(--secondary-color);
+      }
+
+      .virtual-badge {
+        background-color: var(--info-color);
+      }
+
+      .free-badge {
+        background-color: var(--success-color);
+      }
+
+      .card-actions {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .action-btn:hover {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .event-content {
+        padding: 20px;
+      }
+
+      .event-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--dark-color);
+      }
+
+      .event-date {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .event-description {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .event-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+
+      .event-stats {
+        display: flex;
+        gap: 15px;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        color: #777;
+      }
+
+      .event-price {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .free-price {
+        color: var(--success-color);
+      }
+
+      /* Calendar View (hidden by default) */
+      .calendar-view {
+        display: none;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .calendar-nav {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .calendar-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+      }
+
+      .calendar-day-header {
+        text-align: center;
+        font-weight: 600;
+        padding: 10px;
+        color: var(--primary-color);
+      }
+
+      .calendar-day {
+        background: #f9f9f9;
+        border-radius: 5px;
+        padding: 10px;
+        min-height: 100px;
+      }
+
+      .day-number {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .calendar-event {
+        background: white;
+        border-left: 3px solid var(--primary-color);
+        padding: 5px;
+        margin-bottom: 5px;
+        font-size: 12px;
+        border-radius: 3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 1200px) {
+        .events-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+      }
+
+      @media (max-width: 992px) {
+        .nav-links {
+          position: fixed;
+          top: 0;
+          left: -100%;
+          width: 280px;
+          height: 100vh;
+          background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 80px 30px 30px;
+          transition: all 0.3s ease;
+          z-index: 1000;
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .hero-carousel {
+          height: 350px;
+        }
+
+        .carousel-caption h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-carousel {
+          height: 300px;
+        }
+
+        .carousel-caption {
+          padding: 20px;
+        }
+
+        .carousel-caption h2 {
+          font-size: 1.8rem;
+        }
+
+        .carousel-caption p {
+          font-size: 1rem;
+        }
+
+        .filter-section {
+          padding: 15px;
+        }
+
+        .search-filter {
+          flex-direction: column;
+        }
+
+        .search-wrapper {
+          min-width: 100%;
+        }
+
+        .filter-group {
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .logo {
+          font-size: 22px;
+        }
+
+        .hero-carousel {
+          height: 250px;
+        }
+
+        .carousel-caption h2 {
+          font-size: 1.5rem;
+        }
+
+        .carousel-control {
+          width: 40px;
+          height: 40px;
+          padding: 10px;
+        }
+
+        .events-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .calendar-day-header,
+        .calendar-day {
+          padding: 5px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">BADGE APP</div>
+          <div class="menu-toggle">☰</div>
+          <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Browse Events</a>
+            <a href="#">My Events</a>
+            <a href="#">Create Event</a>
+            <div class="user-menu">
+              <div class="user-icon">KR</div>
+              <div class="dropdown-content">
+                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                <div class="divider"></div>
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Carousel -->
+    <div class="hero-carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="images/hitlab.jpg" alt="Tech Conference" />
+          <div class="carousel-caption">
+            <h2>Tech Innovators Summit 2023</h2>
+            <p>
+              Join the leading minds in technology as we explore the future of
+              AI, blockchain, and quantum computing.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="images/musical.jpg" alt="Business Event" />
+          <div class="carousel-caption">
+            <h2>Global Business Forum</h2>
+            <p>
+              Network with industry leaders and discover new opportunities in
+              the evolving business landscape.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="images/gbf.jpeg" alt="Music Festival" />
+          <div class="carousel-caption">
+            <h2>Summer Music Festival</h2>
+            <p>
+              Experience the hottest musical acts of the year in this
+              unforgettable weekend event.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-indicators">
+        <button class="active" aria-label="Slide 1"></button>
+        <button aria-label="Slide 2"></button>
+        <button aria-label="Slide 3"></button>
+      </div>
+      <button class="carousel-control carousel-prev" aria-label="Previous">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="carousel-control carousel-next" aria-label="Next">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="container">
+      <main class="main-content">
+        <!-- Filter Section -->
+        <section class="filter-section">
+          <div class="filter-header">
+            <h2>Upcoming Events</h2>
+            <div class="view-toggle">
+              <button class="view-btn active" data-view="grid">
+                <i class="fas fa-th"></i> Grid
+              </button>
+              <button class="view-btn" data-view="calendar">
+                <i class="fas fa-calendar"></i> Calendar
+              </button>
+            </div>
+          </div>
+          <div class="search-filter">
+            <div class="search-wrapper">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search events..."
+              />
+              <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all">
+                All Events
+              </button>
+              <button class="filter-btn" data-filter="tech">Technology</button>
+              <button class="filter-btn" data-filter="business">
+                Business
+              </button>
+              <button class="filter-btn" data-filter="music">Music</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Events Grid View -->
+        <div class="events-grid">
+          <!-- Event Card 1 -->
+          <div
+            class="event-card"
+            data-categories="tech virtual"
+            data-price="paid"
+          >
+            <div class="card-image-wrapper">
+              <img
+                src="images/hitlab.jpg"
+                alt="Tech Conference"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge">Technology</span>
+                <!-- <span class="virtual-badge">Virtual</span> -->
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Tech Innovators Summit 2023</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Nov 15-17, 2023</span>
+              </div>
+              <p class="event-description">
+                Join the leading minds in technology as we explore the future of
+                AI, blockchain, and quantum computing in this exclusive virtual
+                summit.
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>1,248</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Online</span>
+                  </div>
+                </div>
+                <div class="event-price">$199</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Card 2 -->
+          <div class="event-card" data-categories="business" data-price="free">
+            <div class="card-image-wrapper">
+              <img
+                src="images/gbf.jpeg"
+                alt="Business Event"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge">Business</span>
+                <!-- <span class="free-badge">Free</span> -->
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Startup Growth Conference</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Dec 5, 2023</span>
+              </div>
+              <p class="event-description">
+                Learn from successful entrepreneurs and investors about scaling
+                your startup and securing funding in today's competitive market.
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>872</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Convention Center</span>
+                  </div>
+                </div>
+                <!-- <div class="event-price free-price">Free</div> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Card 3 -->
+          <div class="event-card" data-categories="music" data-price="paid">
+            <div class="card-image-wrapper">
+              <img
+                src="images/musical.jpg"
+                alt="Music Festival"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge featured-badge">Music</span>
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Summer Music Festival</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Jul 22-24, 2023</span>
+              </div>
+              <p class="event-description">
+                Three days of non-stop music featuring top artists across
+                multiple genres. Food trucks, art installations, and more!
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>5,421</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Riverside Park</span>
+                  </div>
+                </div>
+                <div class="event-price">$89</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Card 4 -->
+          <div
+            class="event-card"
+            data-categories="tech virtual"
+            data-price="paid"
+          >
+            <div class="card-image-wrapper">
+              <img
+                src="images/main.webp"
+                alt="AI Conference"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge">Technology</span>
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">AI & Machine Learning Expo</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Sep 12-14, 2023</span>
+              </div>
+              <p class="event-description">
+                Discover the latest advancements in artificial intelligence and
+                machine learning from industry experts and researchers.
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>3,156</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Online</span>
+                  </div>
+                </div>
+                <div class="event-price">$149</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Card 5 -->
+          <div class="event-card" data-categories="business" data-price="paid">
+            <div class="card-image-wrapper">
+              <img
+                src="images/leadership.webp"
+                alt="Business Meeting"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge">Business</span>
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Leadership Summit</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Oct 5-7, 2023</span>
+              </div>
+              <p class="event-description">
+                Transform your leadership skills with workshops and keynotes
+                from some of the world's most respected business leaders.
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>784</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Grand Hotel</span>
+                  </div>
+                </div>
+                <div class="event-price">$299</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Card 6 -->
+          <div class="event-card" data-categories="tech" data-price="free">
+            <div class="card-image-wrapper">
+              <img
+                src="images/web.jpeg"
+                alt="Developer Workshop"
+                class="event-image"
+              />
+              <div class="card-badges">
+                <span class="category-badge">Technology</span>
+                <!-- <span class="free-badge">Free</span> -->
+              </div>
+            </div>
+            <div class="event-content">
+              <h3 class="event-title">Web Development Workshop</h3>
+              <div class="event-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>Aug 19, 2023</span>
+              </div>
+              <p class="event-description">
+                Hands-on workshop covering modern web development techniques
+                including React, Node.js, and serverless architectures.
+              </p>
+              <div class="event-meta">
+                <div class="event-stats">
+                  <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>432</span>
+                  </div>
+                  <div class="stat-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Tech Hub</span>
+                  </div>
+                </div>
+                <!-- <div class="event-price free-price">Free</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar View (hidden by default) -->
+        <div class="calendar-view">
+          <div class="calendar-header">
+            <div class="calendar-nav">
+              <button class="calendar-prev">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <h3 class="calendar-title">November 2023</h3>
+              <button class="calendar-next">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <button class="filter-btn">Today</button>
+          </div>
+          <div class="calendar-grid">
+            <div class="calendar-day-header">Sun</div>
+            <div class="calendar-day-header">Mon</div>
+            <div class="calendar-day-header">Tue</div>
+            <div class="calendar-day-header">Wed</div>
+            <div class="calendar-day-header">Thu</div>
+            <div class="calendar-day-header">Fri</div>
+            <div class="calendar-day-header">Sat</div>
+
+            <!-- Empty days for November 2023 start on Wednesday -->
+            <div class="calendar-day"></div>
+            <div class="calendar-day"></div>
+            <div class="calendar-day"></div>
+
+            <!-- November days -->
+            <div class="calendar-day">
+              <div class="day-number">1</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">2</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">3</div>
+              <div class="calendar-event">Tech Meetup</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">4</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">5</div>
+              <div class="calendar-event">Startup Pitch</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">6</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">7</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">8</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">9</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">10</div>
+              <div class="calendar-event">Design Workshop</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">11</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">12</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">13</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">14</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">15</div>
+              <div class="calendar-event">Tech Summit</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">16</div>
+              <div class="calendar-event">Tech Summit</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">17</div>
+              <div class="calendar-event">Tech Summit</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">18</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">19</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">20</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">21</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">22</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">23</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">24</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">25</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">26</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">27</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">28</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">29</div>
+            </div>
+            <div class="calendar-day">
+              <div class="day-number">30</div>
+              <div class="calendar-event">Year-End Party</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+
+      // Carousel functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        // Carousel
+        const carousel = document.querySelector(".hero-carousel");
+        const inner = carousel.querySelector(".carousel-inner");
+        const items = carousel.querySelectorAll(".carousel-item");
+        const indicators = carousel.querySelectorAll(
+          ".carousel-indicators button"
+        );
+        const prevBtn = carousel.querySelector(".carousel-prev");
+        const nextBtn = carousel.querySelector(".carousel-next");
+
+        let currentIndex = 0;
+        let intervalId = null;
+
+        function updateCarousel() {
+          inner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+          // Update indicators
+          indicators.forEach((indicator, index) => {
+            indicator.classList.toggle("active", index === currentIndex);
+          });
+
+          // Update active item
+          items.forEach((item, index) => {
+            item.classList.toggle("active", index === currentIndex);
+          });
+
+          // Reset auto-advance timer
+          clearInterval(intervalId);
+          intervalId = setInterval(goToNextSlide, 5000);
+        }
+
+        function goToNextSlide() {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
+        }
+
+        function goToPrevSlide() {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
+        }
+
+        function goToSlide(index) {
+          currentIndex = index;
+          updateCarousel();
+        }
+
+        // Event listeners
+        nextBtn.addEventListener("click", goToNextSlide);
+        prevBtn.addEventListener("click", goToPrevSlide);
+
+        indicators.forEach((indicator, index) => {
+          indicator.addEventListener("click", () => goToSlide(index));
+        });
+
+        // Pause on hover
+        carousel.addEventListener("mouseenter", () => {
+          clearInterval(intervalId);
+        });
+
+        carousel.addEventListener("mouseleave", () => {
+          intervalId = setInterval(goToNextSlide, 5000);
+        });
+
+        // Initialize
+        updateCarousel();
+
+        // View toggle
+        const viewBtns = document.querySelectorAll(".view-btn");
+        const eventsGrid = document.querySelector(".events-grid");
+        const calendarView = document.querySelector(".calendar-view");
+
+        viewBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            viewBtns.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+
+            if (this.dataset.view === "grid") {
+              eventsGrid.style.display = "grid";
+              calendarView.style.display = "none";
+            } else {
+              eventsGrid.style.display = "none";
+              calendarView.style.display = "block";
+            }
+          });
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll(
+          ".filter-btn[data-filter]"
+        );
+        const eventCards = document.querySelectorAll(".event-card");
+        const searchInput = document.querySelector(".search-input");
+
+        filterBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            // Update active button
+            document
+              .querySelectorAll(".filter-btn[data-filter]")
+              .forEach((b) => {
+                b.classList.remove("active");
+              });
+            this.classList.add("active");
+
+            const filter = this.dataset.filter;
+            filterEvents(filter);
+          });
+        });
+
+        searchInput.addEventListener("input", function () {
+          const searchTerm = this.value.toLowerCase();
+          filterEvents(
+            document.querySelector(".filter-btn.active").dataset.filter,
+            searchTerm
+          );
+        });
+
+        function filterEvents(filter, searchTerm = "") {
+          eventCards.forEach((card) => {
+            const categories = card.dataset.categories;
+            const price = card.dataset.price;
+            const title = card
+              .querySelector(".event-title")
+              .textContent.toLowerCase();
+            const description = card
+              .querySelector(".event-description")
+              .textContent.toLowerCase();
+
+            const matchesFilter =
+              filter === "all" ||
+              (filter === "free" && price === "free") ||
+              categories.includes(filter);
+
+            const matchesSearch =
+              searchTerm === "" ||
+              title.includes(searchTerm) ||
+              description.includes(searchTerm);
+
+            if (matchesFilter && matchesSearch) {
+              card.style.display = "block";
+            } else {
+              card.style.display = "none";
+            }
+          });
+        }
+
+        // Calendar navigation
+        const calendarPrev = document.querySelector(".calendar-prev");
+        const calendarNext = document.querySelector(".calendar-next");
+        const calendarTitle = document.querySelector(".calendar-title");
+
+        let currentMonth = 10; // November (0-indexed)
+        let currentYear = 2023;
+
+        function updateCalendar() {
+          const monthNames = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+          calendarTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+          // In a real app, you would update the calendar days here
+        }
+
+        calendarPrev.addEventListener("click", function () {
+          currentMonth--;
+          if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+          }
+          updateCalendar();
+        });
+
+        calendarNext.addEventListener("click", function () {
+          currentMonth++;
+          if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+          }
+          updateCalendar();
+        });
+      });
+    </script>
+  </body>
+</html>
