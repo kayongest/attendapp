@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A6 Badge Generator</title>
+    <!-- <link rel="stylesheet" href="/public/css/styles.css" /> -->
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f5f5;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .generator-container {
+        display: flex;
+        width: 100%;
+      }
+
+      .controls {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      button:hover {
+        background: #45a049;
+      }
+
+      .output-container {
+        margin-left: 370px;
+        padding: 20px;
+        width: calc(100% - 370px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .badge-preview {
+        position: relative;
+        width: 620px;
+        height: 874px;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        margin-bottom: 20px;
+      }
+
+      .badge-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .badge-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 50px;
+        box-sizing: border-box;
+      }
+
+      .name {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .category {
+        font-size: 24px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .qr-container {
+        width: 200px;
+        height: 200px;
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .print-only {
+        display: none;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        .print-only,
+        .print-only * {
+          visibility: visible;
+        }
+        .print-only {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 105mm;
+          height: 148mm;
+        }
+        .no-print {
+          display: none !important;
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  </head>
+  <body>
+    <div class="generator-container">
+      <div class="controls no-print">
+        <h1>A6 Badge Generator</h1>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" placeholder="Enter name" />
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select id="category">
+            <option value="VIP">VIP</option>
+            <option value="Speaker">Speaker</option>
+            <option value="Staff">Staff</option>
+            <option value="Attendee">Attendee</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="qrText">QR Code Content:</label>
+          <input type="text" id="qrText" placeholder="Text for QR code" />
+        </div>
+        <div class="form-group">
+          <label for="bgImage">Background Image:</label>
+          <input type="file" id="bgImage" accept="image/*" />
+        </div>
+        <button id="generateBtn">Generate Badge</button>
+      </div>
+
+      <div class="output-container">
+        <div class="badge-preview no-print" id="badgePreview"></div>
+        <div id="printBadge" class="print-only"></div>
+        <div class="action-buttons no-print">
+          <button id="printBtn">Print Badge</button>
+          <button id="downloadBtn">Download Badge</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <script src="/public/js/app.js"></script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const generateBtn = document.getElementById("generateBtn");
+        const downloadBtn = document.getElementById("downloadBtn");
+        const printBtn = document.getElementById("printBtn");
+        const badgePreview = document.getElementById("badgePreview");
+        const printBadge = document.getElementById("printBadge");
+
+        generateBtn.addEventListener("click", generateBadge);
+        downloadBtn.addEventListener("click", downloadBadge);
+        printBtn.addEventListener("click", printBadgeHandler);
+
+        function generateBadge() {
+          const name = document.getElementById("name").value;
+          const category = document.getElementById("category").value;
+          const qrText = document.getElementById("qrText").value;
+          const bgImage = document.getElementById("bgImage").files[0];
+
+          if (!name || !qrText) {
+            alert("Please fill in all required fields");
+            return;
+          }
+
+          badgePreview.innerHTML = "";
+          printBadge.innerHTML = "";
+
+          if (bgImage) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              createBadge(e.target.result, name, category, qrText);
+            };
+            reader.readAsDataURL(bgImage);
+          } else {
+            createBadge(null, name, category, qrText);
+          }
+        }
+
+        function createBadge(bgImageUrl, name, category, qrText) {
+          createBadgeVersion(
+            badgePreview,
+            bgImageUrl,
+            name,
+            category,
+            qrText,
+            false
+          );
+          createBadgeVersion(
+            printBadge,
+            bgImageUrl,
+            name,
+            category,
+            qrText,
+            true
+          );
+        }
+
+        function createBadgeVersion(
+          container,
+          bgImageUrl,
+          name,
+          category,
+          qrText,
+          isPrintVersion
+        ) {
+          const badgeContent = document.createElement("div");
+          badgeContent.className = "badge-content";
+          badgeContent.style.padding = isPrintVersion ? "100px" : "50px";
+
+          const nameElement = document.createElement("div");
+          nameElement.className = "name";
+          nameElement.textContent = name;
+          nameElement.style.fontSize = isPrintVersion ? "72px" : "36px";
+
+          const categoryElement = document.createElement("div");
+          categoryElement.className = "category";
+          categoryElement.textContent = category;
+          categoryElement.style.fontSize = isPrintVersion ? "48px" : "24px";
+
+          const qrContainer = document.createElement("div");
+          qrContainer.className = "qr-container";
+          qrContainer.style.width = isPrintVersion ? "400px" : "200px";
+          qrContainer.style.height = isPrintVersion ? "400px" : "200px";
+
+          badgeContent.appendChild(nameElement);
+          badgeContent.appendChild(categoryElement);
+          badgeContent.appendChild(qrContainer);
+
+          const badgeWrapper = document.createElement("div");
+          badgeWrapper.className = "badge-wrapper";
+          badgeWrapper.style.width = isPrintVersion ? "1240px" : "620px";
+          badgeWrapper.style.height = isPrintVersion ? "1748px" : "874px";
+
+          if (bgImageUrl) {
+            const bgImageElement = document.createElement("img");
+            bgImageElement.className = "badge-image";
+            bgImageElement.src = bgImageUrl;
+            badgeWrapper.appendChild(bgImageElement);
+          }
+
+          badgeWrapper.appendChild(badgeContent);
+          container.appendChild(badgeWrapper);
+
+          QRCode.toCanvas(
+            qrText,
+            {
+              width: isPrintVersion ? 360 : 180,
+              margin: 2,
+              color: { dark: "#000000", light: "#ffffff" },
+            },
+            function (error, canvas) {
+              if (error) {
+                console.error(error);
+                return;
+              }
+              qrContainer.innerHTML = "";
+              qrContainer.appendChild(canvas);
+            }
+          );
+        }
+
+        function downloadBadge() {
+          if (printBadge.children.length === 0) {
+            alert("Please generate a badge first");
+            return;
+          }
+
+          html2canvas(printBadge.firstChild, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true,
+          }).then((canvas) => {
+            const link = document.createElement("a");
+            link.download =
+              "badge-" + document.getElementById("name").value + ".png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+          });
+        }
+
+        function printBadgeHandler() {
+          if (printBadge.children.length === 0) {
+            alert("Please generate a badge first");
+            return;
+          }
+
+          const badgeHTML = printBadge.innerHTML;
+          const printWindow = window.open("", "_blank");
+
+          printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <title>Print Badge</title>
+          <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"><\/script>
+          <style>
+              @page { size: A6; margin: 0; }
+              body { margin: 0; padding: 0; width: 105mm; height: 148mm; overflow: hidden; }
+              .badge-wrapper { width: 100% !important; height: 100% !important; }
+              .badge-image { width: 100%; height: 100%; object-fit: cover; }
+              .badge-content {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: space-between;
+                  padding: 10mm;
+                  box-sizing: border-box;
+              }
+              .name { font-size: 14pt; font-weight: bold; text-align: center; }
+              .category { font-size: 12pt; text-align: center; }
+              .qr-container { width: 40mm; height: 40mm; display: flex; justify-content: center; align-items: center; }
+          </style>
+      </head>
+      <body>${badgeHTML}</body>
+      </html>
+    `);
+          printWindow.document.close();
+
+          printWindow.onload = function () {
+            setTimeout(() => {
+              printWindow.print();
+              printWindow.close();
+            }, 500);
+          };
+        }
+      });
+    </script>
+  </body>
+</html>

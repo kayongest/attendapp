@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vMix Key Manager</title>
+    <link rel="stylesheet" href="style.css" />
+    <base href="/" />
+    <!-- Ensures all paths are relative to root -->
+  </head>
+  <body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+      <div class="login-card">
+        <div class="logo">
+          <h2>vMix Key Manager</h2>
+        </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              required
+              placeholder="Enter username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="Enter password"
+            />
+          </div>
+          <button type="submit" class="btn btn-login">Login</button>
+          <div id="loginError" class="error-message"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Main Application Page -->
+    <div id="appPage" style="display: none">
+      <header>
+        <div class="header-content">
+          <h1>vMix Key Manager</h1>
+          <div class="user-controls">
+            <span id="currentUser" class="user-badge"></span>
+            <button id="logoutBtn" class="btn btn-logout">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="container">
+        <!-- Admin Controls Section -->
+        <section id="adminControls" class="admin-section" style="display: none">
+          <div class="card">
+            <h2><i class="icon-users"></i> User Management</h2>
+            <button id="showUsersBtn" class="btn btn-toggle">View Users</button>
+
+            <div
+              id="usersSection"
+              class="user-management"
+              style="display: none"
+            >
+              <table id="usersTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+
+              <h3>Add New User</h3>
+              <form id="addUserForm" class="user-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="newUsername">Username</label>
+                    <input
+                      type="text"
+                      id="newUsername"
+                      required
+                      placeholder="New username"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input
+                      type="password"
+                      id="newPassword"
+                      required
+                      placeholder="New password"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="newUserRole">Role</label>
+                  <select id="newUserRole" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-submit">Add User</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Password Reset Section -->
+          <div class="card password-reset">
+            <h2><i class="icon-lock"></i> Password Reset</h2>
+            <form id="passwordResetForm">
+              <div class="form-group">
+                <label for="resetUsername">Username</label>
+                <input
+                  type="text"
+                  id="resetUsername"
+                  required
+                  placeholder="Username to reset"
+                />
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  required
+                  placeholder="New password"
+                />
+              </div>
+              <button type="submit" class="btn btn-reset">
+                Reset Password
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Key Management Section -->
+        <section class="key-management">
+          <div class="card">
+            <h2><i class="icon-key"></i> Add New Key Assignment</h2>
+            <form id="keyForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="event">Event</label>
+                  <input
+                    type="text"
+                    id="event"
+                    name="event"
+                    required
+                    placeholder="e.g. GTAP 2025"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="room">Room</label>
+                  <input
+                    type="text"
+                    id="room"
+                    name="room"
+                    required
+                    placeholder="e.g. MH4"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="device">Device</label>
+                  <input
+                    type="text"
+                    id="device"
+                    name="device"
+                    required
+                    placeholder="e.g. OMEN IV"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="vMixKey">vMix Key</label>
+                  <input
+                    type="text"
+                    id="vMixKey"
+                    name="vMixKey"
+                    required
+                    placeholder="License key"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="user">Responsible User</label>
+                  <input
+                    type="text"
+                    id="user"
+                    name="user"
+                    required
+                    placeholder="Who is responsible"
+                  />
+                </div>
+                <div id="statusField" class="form-group">
+                  <label for="status">Status</label>
+                  <select id="status" name="status" required>
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="startDate">Start Date</label>
+                  <input type="date" id="startDate" name="startDate" required />
+                </div>
+                <div class="form-group">
+                  <label for="endDate">End Date</label>
+                  <input type="date" id="endDate" name="endDate" required />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-submit">
+                Add Key Assignment
+              </button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="search-bar">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search keys..."
+              />
+              <i class="icon-search"></i>
+            </div>
+
+            <h2><i class="icon-list"></i> Current Key Assignments</h2>
+
+            <!-- Desktop Table View -->
+            <div class="table-container">
+              <table id="keyTable" class="data-table">
+                <thead>
+                  <tr>
+                    <th>Event</th>
+                    <th>Room</th>
+                    <th>Device</th>
+                    <th>vMix Key</th>
+                    <th>User</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="keyTableBody"></tbody>
+              </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div id="keyCardsContainer" class="card-view"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          &copy; <span id="year"></span> vMix Key Manager | Logged in as:
+          <span id="footerUser"></span>
+        </p>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
