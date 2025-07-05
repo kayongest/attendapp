@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evently - Discover Events</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Titillium Web", sans-serif;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Header Styles */
+      /* Header Styles */
+      header {
+        background-color: #1e3e62;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+      }
+
+      .hamburger-menu {
+        display: none;
+        margin-right: 15px;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      .logo h1 {
+        color: #ffffff;
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .main-nav ul {
+        display: flex;
+        list-style: none;
+      }
+
+      .main-nav ul li {
+        margin-left: 25px;
+      }
+
+      .main-nav ul li a {
+        text-decoration: none;
+        color: #ffffff;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .main-nav ul li a:hover {
+        color: #166e9d;
+      }
+
+      .main-nav ul li a.active {
+        color: #267bc0;
+      }
+
+      .auth-buttons {
+        display: flex;
+        margin-left: 25px;
+      }
+
+      .auth-buttons button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .auth-buttons .login {
+        color: #ddd;
+        background: transparent;
+        border: 1px solid #ddd;
+        margin-right: 10px;
+      }
+
+      .auth-buttons .login:hover {
+        border-color: #166e9d;
+        color: #166e9d;
+      }
+
+      .auth-buttons .signup {
+        background: #166e9d;
+        color: white;
+        border: 1px solid #166e9d;
+      }
+
+      .auth-buttons .signup:hover {
+        background: #d84327;
+        border-color: #d84327;
+      }
+
+      .search-icon {
+        display: none;
+        font-size: 1.2rem;
+        margin-left: 15px;
+        cursor: pointer;
+      }
+
+      .hamburger-menu {
+        color: #fff;
+      }
+
+      .mobile-search-container {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-search-container .search-box {
+        display: flex;
+        align-items: center;
+        background: #f5f5f5;
+        padding: 10px 15px;
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .mobile-search-container .search-box i {
+        color: #777;
+        margin-right: 10px;
+      }
+
+      .mobile-search-container .search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 16px;
+      }
+
+      .mobile-search-container .close-search {
+        position: absolute;
+        right: 15px;
+        font-size: 1.5rem;
+        color: #777;
+        cursor: pointer;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+        transition: left 0.3s ease;
+      }
+
+      .mobile-menu.show {
+        left: 0;
+      }
+
+      .mobile-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .mobile-menu-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .close-menu {
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu ul li a {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        text-decoration: none;
+        color: #333;
+        border-bottom: 1px solid #eee;
+      }
+
+      .mobile-menu ul li a i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(26 88 148 / 18%);
+        z-index: 1000;
+        display: none;
+      }
+
+      .mobile-menu-overlay.show {
+        display: block;
+      }
+
+      /* Responsive Header */
+      @media (max-width: 992px) {
+        .main-nav {
+          display: none;
+        }
+
+        .auth-buttons {
+          margin-left: auto;
+        }
+
+        .search-icon {
+          display: block;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hamburger-menu {
+          display: block;
+        }
+
+        .auth-buttons {
+          display: none;
+        }
+
+        .logo h1 {
+          font-size: 24px;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+      }
+
+      .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+
+      .search-container {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+      }
+
+      .search-box {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 15px;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .search-box i {
+        color: #777;
+        margin-right: 10px;
+      }
+
+      .search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 16px;
+      }
+
+      .search-btn {
+        background: #166e9d;
+        color: white;
+        border: none;
+        padding: 0 25px;
+        border-radius: 0 4px 4px 0;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .search-btn:hover {
+        background: #d84327;
+      }
+
+      /* Categories Section */
+      .categories {
+        padding: 50px 0;
+      }
+
+      .categories h3 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        color: #333;
+      }
+
+      .category-list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .category-item {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        width: 18%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .category-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .category-item i {
+        font-size: 2rem;
+        color: #166e9d;
+        margin-bottom: 10px;
+        display: block;
+      }
+
+      .category-item span {
+        font-weight: 500;
+      }
+
+      /* Events Section */
+      .events {
+        padding: 0 0 50px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .section-header h3 {
+        font-size: 1.8rem;
+        color: #333;
+      }
+
+      .view-all {
+        color: #166e9d;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .event-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .event-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .event-image {
+        height: 160px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .event-details {
+        padding: 20px;
+      }
+
+      .event-date {
+        color: #166e9d;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .event-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .event-location {
+        display: flex;
+        align-items: center;
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+      }
+
+      .event-location i {
+        margin-right: 5px;
+      }
+
+      .event-price {
+        font-weight: 600;
+        color: #333;
+      }
+
+      /* Footer Styles */
+      footer {
+        background: #2c3e50;
+        color: white;
+        padding: 50px 0 20px;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+      }
+
+      .footer-column {
+        width: 30%;
+      }
+
+      .footer-column h4 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-column ul li a {
+        color: #ecf0f1;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-column ul li a:hover {
+        color: #166e9d;
+      }
+
+      .footer-column ul li a i {
+        margin-right: 8px;
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #34495e;
+        color: #bdc3c7;
+        font-size: 0.9rem;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-content {
+        background: white;
+        margin: 50px auto;
+        max-width: 800px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 28px;
+        color: #777;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      .close-btn:hover {
+        color: #333;
+      }
+
+      .modal-body {
+        padding: 30px;
+      }
+
+      .modal-image {
+        width: 100%;
+        height: 350px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .modal-title {
+        font-size: 2rem;
+        margin: 20px 0 10px;
+      }
+
+      .modal-date-location {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .modal-date,
+      .modal-location {
+        display: flex;
+        align-items: center;
+        margin-right: 30px;
+        color: #666;
+      }
+
+      .modal-date i,
+      .modal-location i {
+        margin-right: 8px;
+        color: #166e9d;
+      }
+
+      .modal-description {
+        margin-bottom: 30px;
+        line-height: 1.7;
+      }
+
+      .modal-price {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #166e9d;
+        margin-bottom: 20px;
+      }
+
+      .book-btn {
+        background: #166e9d;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .book-btn:hover {
+        background: #d84327;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        header .container {
+          flex-direction: column;
+        }
+
+        nav ul {
+          margin: 15px 0;
+        }
+
+        .auth-buttons {
+          margin-top: 15px;
+        }
+
+        .search-container {
+          flex-direction: column;
+        }
+
+        .search-box {
+          border-radius: 4px 4px 0 0;
+        }
+
+        .search-btn {
+          border-radius: 0 0 4px 4px;
+          padding: 15px;
+        }
+
+        .category-item {
+          width: 48%;
+          margin-bottom: 15px;
+        }
+
+        .footer-links {
+          flex-direction: column;
+        }
+
+        .footer-column {
+          width: 100%;
+          margin-bottom: 30px;
+        }
+
+        .modal-content {
+          margin: 20px;
+        }
+
+        .modal-image {
+          height: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-left">
+          <div class="hamburger-menu">
+            <i class="fas fa-bars"></i>
+          </div>
+          <div class="logo">
+            <h1>BARA</h1>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- <div class="search-icon mobile-search">
+            <i class="fas fa-search"></i>
+          </div> -->
+          <nav class="main-nav">
+            <ul>
+              <li><a href="#" class="active">Browse Events</a></li>
+              <li><a href="#">Create Event</a></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </nav>
+          <div class="auth-buttons">
+            <button class="login">Log In</button>
+            <button class="signup">Sign Up</button>
+          </div>
+        </div>
+
+        <div class="mobile-search-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for events..." />
+            <span class="close-search">&times;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="mobile-menu">
+        <div class="mobile-menu-header">
+          <h3>Menu</h3>
+          <span class="close-menu">&times;</span>
+        </div>
+        <ul>
+          <li>
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-search"></i> Browse Events</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-plus-circle"></i> Create Event</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-user"></i> Log In</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-user-plus"></i> Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h2>Discover your next experience</h2>
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                placeholder="Search for events, categories, or locations"
+              />
+            </div>
+            <button class="search-btn">Search</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="categories">
+        <div class="container">
+          <h3>Popular Categories</h3>
+          <div class="category-list">
+            <div class="category-item">
+              <i class="fas fa-music"></i>
+              <span>Music</span>
+            </div>
+            <div class="category-item">
+              <i class="fas fa-utensils"></i>
+              <span>Food & Drink</span>
+            </div>
+            <div class="category-item">
+              <i class="fas fa-running"></i>
+              <span>Sports</span>
+            </div>
+            <div class="category-item">
+              <i class="fas fa-graduation-cap"></i>
+              <span>Education</span>
+            </div>
+            <div class="category-item">
+              <i class="fas fa-theater-masks"></i>
+              <span>Arts</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="events">
+        <div class="container">
+          <div class="section-header">
+            <h3>Upcoming Events</h3>
+            <div class="view-all">View All</div>
+          </div>
+          <div class="event-list" id="eventList">
+            <!-- Events will be loaded here via JavaScript -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Evently</h4>
+            <ul>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Plan Events</h4>
+            <ul>
+              <li><a href="#">Create Events</a></li>
+              <li><a href="#">Sell Tickets</a></li>
+              <li><a href="#">Online Events</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <ul>
+              <li>
+                <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2023 Evently. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="eventModal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div class="modal-body" id="modalBody">
+          <!-- Event details will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Sample event data
+      const events = [
+        {
+          id: 1,
+          title: "Summer Music Festival 2023",
+          date: "Sat, Jul 15, 2023 • 2:00 PM",
+          location: "Central Park, New York",
+          price: "$45.00",
+          image:
+            "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+          description:
+            "Join us for the biggest summer music festival featuring top artists from around the world. Food trucks, art installations, and amazing performances await you!",
+          category: "Music",
+        },
+        {
+          id: 2,
+          title: "Food & Wine Tasting Experience",
+          date: "Fri, Aug 4, 2023 • 6:30 PM",
+          location: "Downtown Convention Center",
+          price: "$75.00",
+          image:
+            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+          description:
+            "Experience the finest local and international wines paired with gourmet dishes prepared by award-winning chefs.",
+          category: "Food & Drink",
+        },
+        {
+          id: 3,
+          title: "Tech Conference 2023",
+          date: "Wed, Sep 20, 2023 • 9:00 AM",
+          location: "Tech Hub Conference Center",
+          price: "$199.00",
+          image:
+            "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+          description:
+            "Learn from industry leaders about the latest trends in technology, AI, and digital transformation.",
+          category: "Education",
+        },
+        {
+          id: 4,
+          title: "Yoga in the Park",
+          date: "Sun, Jul 9, 2023 • 8:00 AM",
+          location: "Riverside Park",
+          price: "Free",
+          image:
+            "https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+          description:
+            "Start your Sunday morning with a relaxing yoga session in the beautiful Riverside Park. All levels welcome.",
+          category: "Sports",
+        },
+        {
+          id: 5,
+          title: "Art Gallery Opening",
+          date: "Thu, Aug 17, 2023 • 7:00 PM",
+          location: "Modern Art Gallery",
+          price: "$25.00",
+          image:
+            "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+          description:
+            "Experience the latest exhibition from contemporary artists. Wine and hors d'oeuvres will be served.",
+          category: "Arts",
+        },
+      ];
+
+      // DOM Elements
+      const eventList = document.getElementById("eventList");
+      const eventModal = document.getElementById("eventModal");
+      const modalBody = document.getElementById("modalBody");
+      const closeBtn = document.querySelector(".close-btn");
+
+      // Display events on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        displayEvents(events);
+      });
+
+      // Display events function
+      function displayEvents(eventsToDisplay) {
+        eventList.innerHTML = "";
+
+        eventsToDisplay.forEach((event) => {
+          const eventCard = document.createElement("div");
+          eventCard.className = "event-card";
+          eventCard.innerHTML = `
+            <div class="event-image" style="background-image: url('${event.image}')"></div>
+            <div class="event-details">
+                <div class="event-date">${event.date}</div>
+                <h4 class="event-title">${event.title}</h4>
+                <div class="event-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${event.location}</span>
+                </div>
+                <div class="event-price">From ${event.price}</div>
+            </div>
+        `;
+
+          eventCard.addEventListener("click", () => {
+            openEventModal(event);
+          });
+
+          eventList.appendChild(eventCard);
+        });
+      }
+
+      // Open event modal
+      function openEventModal(event) {
+        modalBody.innerHTML = `
+        <div class="modal-image" style="background-image: url('${event.image}')"></div>
+        <h2 class="modal-title">${event.title}</h2>
+        <div class="modal-date-location">
+            <div class="modal-date">
+                <i class="far fa-calendar-alt"></i>
+                <span>${event.date}</span>
+            </div>
+            <div class="modal-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${event.location}</span>
+            </div>
+        </div>
+        <div class="modal-description">
+            <p>${event.description}</p>
+        </div>
+        <div class="modal-price">Price: ${event.price}</div>
+        <button class="book-btn">Book Now</button>
+    `;
+
+        eventModal.style.display = "block";
+
+        // Add event listener to the book button
+        const bookBtn = modalBody.querySelector(".book-btn");
+        bookBtn.addEventListener("click", () => {
+          alert(
+            `Booking for "${event.title}" is not implemented in this demo.`
+          );
+        });
+      }
+
+      // Close modal when clicking the X button
+      closeBtn.addEventListener("click", () => {
+        eventModal.style.display = "none";
+      });
+
+      // Close modal when clicking outside the modal content
+      window.addEventListener("click", (e) => {
+        if (e.target === eventModal) {
+          eventModal.style.display = "none";
+        }
+      });
+
+      // Search functionality
+      const searchInput = document.querySelector(".search-box input");
+      const searchBtn = document.querySelector(".search-btn");
+
+      searchBtn.addEventListener("click", performSearch);
+      searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          performSearch();
+        }
+      });
+
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        if (searchTerm.trim() === "") {
+          displayEvents(events);
+          return;
+        }
+
+        const filteredEvents = events.filter(
+          (event) =>
+            event.title.toLowerCase().includes(searchTerm) ||
+            event.location.toLowerCase().includes(searchTerm) ||
+            event.category.toLowerCase().includes(searchTerm)
+        );
+
+        displayEvents(filteredEvents);
+
+        if (filteredEvents.length === 0) {
+          eventList.innerHTML = `
+            <div class="no-results">
+                <p>No events found matching your search. Try a different term.</p>
+            </div>
+        `;
+        }
+      }
+
+      // Mobile menu functionality
+      const hamburgerMenu = document.querySelector(".hamburger-menu");
+      const mobileMenu = document.querySelector(".mobile-menu");
+      const closeMenu = document.querySelector(".close-menu");
+      const mobileMenuOverlay = document.createElement("div");
+      mobileMenuOverlay.className = "mobile-menu-overlay";
+      document.body.appendChild(mobileMenuOverlay);
+
+      hamburgerMenu.addEventListener("click", () => {
+        mobileMenu.classList.add("show");
+        mobileMenuOverlay.classList.add("show");
+        document.body.style.overflow = "hidden";
+      });
+
+      closeMenu.addEventListener("click", () => {
+        mobileMenu.classList.remove("show");
+        mobileMenuOverlay.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+
+      mobileMenuOverlay.addEventListener("click", () => {
+        mobileMenu.classList.remove("show");
+        mobileMenuOverlay.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+
+      // Mobile search functionality
+      const searchIcon = document.querySelector(".search-icon");
+      const mobileSearchContainer = document.querySelector(
+        ".mobile-search-container"
+      );
+      const closeSearch = document.querySelector(".close-search");
+
+      searchIcon.addEventListener("click", () => {
+        mobileSearchContainer.style.display = "block";
+        setTimeout(() => {
+          mobileSearchContainer.querySelector("input").focus();
+        }, 100);
+      });
+
+      closeSearch.addEventListener("click", () => {
+        mobileSearchContainer.style.display = "none";
+      });
+
+      // Close search when clicking outside (for mobile)
+      document.addEventListener("click", (e) => {
+        if (
+          !mobileSearchContainer.contains(e.target) &&
+          e.target !== searchIcon
+        ) {
+          mobileSearchContainer.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>

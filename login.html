@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ALX Book Store</title>
+    <style>
+      :root {
+        --primary: #4361ee;
+        --secondary: #3a0ca3;
+        --accent: #f72585;
+        --text-light: #f8f9fa;
+        --text-dark: #212529;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        padding-top: 70px;
+      }
+
+      /* Header Styles */
+      header {
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--secondary);
+      }
+
+      /* Navigation */
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      /* User Menu */
+      .user-menu {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .user-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      /* Offcanvas Styles */
+      .offcanvas {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: 320px;
+        height: 100vh;
+        background: white;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 1050;
+        overflow-y: auto;
+      }
+
+      .offcanvas.active {
+        right: 0;
+      }
+
+      .offcanvas-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .offcanvas-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .offcanvas-body {
+        padding: 1.5rem;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .user-info h3 {
+        margin-bottom: 0.25rem;
+      }
+
+      .user-info p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .menu-item {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .menu-item a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-dark);
+      }
+
+      .menu-item a:hover {
+        color: var(--primary);
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Mobile Menu Toggle */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">ALX Book Store</div>
+          <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Books</a>
+            <a href="#">Collections</a>
+            <div class="user-menu" id="userMenu">
+              <div class="user-icon">KR</div>
+            </div>
+          </nav>
+          <button class="menu-toggle" id="mobileMenuToggle">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Offcanvas User Menu -->
+    <div class="offcanvas" id="userOffcanvas">
+      <div class="offcanvas-header">
+        <h3 class="offcanvas-title">My Account</h3>
+        <button class="close-btn" id="closeOffcanvas">&times;</button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="user-profile">
+          <div class="user-avatar">KR</div>
+          <div class="user-info">
+            <h3>Kai Rivers</h3>
+            <p>kai@example.com</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <a href="#"><span>👤</span> Profile</a>
+        </div>
+        <div class="menu-item">
+          <a href="#"><span>⚙️</span> Settings</a>
+        </div>
+        <div class="menu-item">
+          <a href="#"><span>📚</span> My Books</a>
+        </div>
+        <div class="menu-item">
+          <a href="#"><span>❤️</span> Wishlist</a>
+        </div>
+        <div class="menu-item">
+          <a href="#"><span>🚪</span> Logout</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="container">
+      <!-- Your page content here -->
+      <h1 style="margin-top: 2rem">Welcome to ALX Book Store</h1>
+      <p>Browse our collection of books</p>
+    </main>
+
+    <script>
+      // Offcanvas functionality
+      const userMenu = document.getElementById("userMenu");
+      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+      const userOffcanvas = document.getElementById("userOffcanvas");
+      const closeOffcanvas = document.getElementById("closeOffcanvas");
+      const overlay = document.getElementById("overlay");
+
+      function toggleOffcanvas() {
+        userOffcanvas.classList.toggle("active");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = userOffcanvas.classList.contains(
+          "active"
+        )
+          ? "hidden"
+          : "";
+      }
+
+      userMenu.addEventListener("click", toggleOffcanvas);
+      mobileMenuToggle.addEventListener("click", toggleOffcanvas);
+      closeOffcanvas.addEventListener("click", toggleOffcanvas);
+      overlay.addEventListener("click", toggleOffcanvas);
+
+      // Close on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && userOffcanvas.classList.contains("active")) {
+          toggleOffcanvas();
+        }
+      });
+    </script>
+  </body>
+</html>
